@@ -1,6 +1,13 @@
 # All the PyCharm stuff in .idea
 .idea/
 
+# Any type of video from the output.
+*.avi
+*.mp4
+*.flv
+*.wmv
+*.mov
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
