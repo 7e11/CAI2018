@@ -1,11 +1,14 @@
 import numpy as np
+
 import cv2
+import time
 
 cap = cv2.VideoCapture(0)
 
 # Define the codec and create VideoWriter object
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
+fourcc = cv2.VideoWriter_fourcc(*'MJPG')
 out = cv2.VideoWriter('output.avi', fourcc, 30.0, (640, 480))
+before = time.time()
 
 while(cap.isOpened()):
     ret, frame = cap.read()
@@ -16,8 +19,11 @@ while(cap.isOpened()):
         out.write(frame)
 
         cv2.imshow('frame',frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        cv2.waitKey(1)
+        if before >= time.time() + 5:
             break
+        # if cv2.waitKey(1) & 0xFF == ord('q'):
+        #     break
     else:
         break
 
