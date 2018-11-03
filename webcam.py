@@ -4,24 +4,21 @@ import cv2
 cap = cv2.VideoCapture(0)
 
 # Define the codec and create VideoWriter object
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('output.avi', fourcc, 30.0, (640, 480))
 
-while(cap.isOpened()):
-    ret, frame = cap.read()
-    if ret==True:
-        #frame = cv2.flip(frame,0)
+xvid = cv2.VideoWriter_fourcc(*'XVID')
+xvid_out = cv2.VideoWriter('xvid.avi', xvid, 5.0, (640, 480))
 
-        # write the flipped frame
-        out.write(frame)
+i = 0
+while True:
+    i+=1
+    xvid_out = cv2.VideoWriter(str(i) + '.avi', xvid, 10.0, (640, 480))
+    for x in range(5 * 10):
+        try:
+            ret, frame = cap.read()
+            xvid_out.write(frame)
 
-        cv2.imshow('frame',frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    else:
-        break
-
-# Release everything if job is finished
-cap.release()
-out.release()
-cv2.destroyAllWindows()
+        except KeyboardInterrupt:
+            # Release everything if job is finished
+            cap.release()
+            xvid_out.release()
+            cv2.destroyAllWindows()
