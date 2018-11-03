@@ -17,13 +17,13 @@ def generateHMAC(payload):
     # secureHash = hmac.new(bytearray(SECRET, 'utf-8'), bytearray(fullpayload, 'utf-8'), hashlib.sha256).digest()
     # base64.b64encode(secureHash).decode()
     digest = hmac.new(bytes.fromhex(SECRET), msg=bytearray(payload, 'utf-8'), digestmod=hashlib.sha256).digest()
-    # print(digest)
-    signature = base64.b64encode(digest).decode()
-    # print(signature)
+    print(digest)
+    signature = str(base64.b64encode(digest))[2:46]
+    print(signature)
     return signature
 
-# date = datetime.datetime.now().isoformat();
-date = "2018-11-03T15:33:26.975Z"
+date = datetime.datetime.now().isoformat();
+# date = "2018-11-03T16:09:48.734Z"
 # date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 AUTH = "ALTR " + KEY + ":" + generateHMAC("GET\n" + REF + "\n" + date + "\n")
 print(AUTH)
