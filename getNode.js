@@ -1,7 +1,7 @@
 var KEY="ALTR-24E95DD903235BE18B130C1CAA0923ED";
 var SECRET="4df873715bde1fdf27d751619f0aca3d199fcc32dce112b988ce078287a76a39";
 var URL="https://dgl-hackathon.dev.altr.com/api/v1/chain/";
-var REF = "chain_618f5f6485a9c93f970846193207027c08d0634962460e3e46069692daa70d3e";
+var REF = "chain_fedd85ba7e4a8bd58008436517bdacf80ff8110534793929ba234f503a7b9799";
 //hello world 2:
 //chain_4a1e6addfdd87d0944f51d1e54f5140ea24749fa92651c48b1f3b16521737378
 var REQUEST_METHOD = "GET";
@@ -27,7 +27,7 @@ var options = { method: 'GET',
    { 'Postman-Token': 'a69982be-d345-4d9e-bbf7-4e816396d51f',
      'cache-control': 'no-cache',
      'X-ALTR-DATE': date,
-     'Content-Type': 'application/json',
+     'Content-Type': 'application/octet-stream',
      Authorization: "ALTR " + KEY + ":" + generateHMAC(date, REQUEST_METHOD, REF)  } };
 
 request(options, function (error, response, body) {

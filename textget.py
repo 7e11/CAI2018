@@ -25,11 +25,11 @@ def getData(reference):
         'X-ALTR-DATE': date,
         'cache-control': "no-cache"
         }
-    response = requests.request("GET", URL + reference, headers=headers, stream=True)
+    response = requests.request("GET", URL + reference, headers=headers)
     return response
 
-
-response = getData("")
-
+# print(getData("chain_1d2d2c4277c0a730b977acc18e67382f36e083d2b699c4d866cf9afef4f4271f").content)
+print(getData("chain_fedd85ba7e4a8bd58008436517bdacf80ff8110534793929ba234f503a7b9799").raw)
+# print(getData("chain_ae93eb73e2f12018398de90877dfe18ac01593ff3fecdf0b39bf85ac69595bb2").content)
 # print(getData(REF).text)
 # print(getData("chain_e172bd299e0150864f1885b1aaf9f8c35811d075b9f4235e3993ab33faf2b2be").content)
