@@ -16,7 +16,7 @@ def generateHMAC(payload, method, resource = ""):
     # secureHash = hashlib.sha256(fullpayload, SECRET)
     # secureHash = hmac.new(bytearray(SECRET, 'utf-8'), bytearray(fullpayload, 'utf-8'), hashlib.sha256).digest()
     # base64.b64encode(secureHash).decode()
-    digest = hmac.new(bytearray(SECRET, 'utf-8'), msg=bytearray(payload, 'utf-8'), digestmod=hashlib.sha256).digest()
+    digest = hmac.new(bytes.fromhex(SECRET), msg=bytearray(payload, 'utf-8'), digestmod=hashlib.sha256).digest()
     signature = base64.b64encode(digest).decode()
     return signature
 
