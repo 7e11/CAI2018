@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "2279a75d-8916-4d4c-9a38-f14868a95b78",
+		"name": "ChainAPI copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Streaming Upload",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2ccf0818-3952-4a35-9a33-abc83acf2498",
+						"exec": [
+							"var KEY=\"KEY_GOES_HERE\"; ",
+							"var SECRET=\"SECRET_GOES_HERE\";",
+							"//***//",
+							"var crypto = require('crypto-js');",
+							"function generateHMAC( payload, method, resource)",
+							"{",
+							"    console.log(\"HMAC Payload: \", payload);",
+							"    console.log(\"HMAC Method:\", method);",
+							"    var fullpayload = method  + \"\\n\" + (resource ? resource:\"\") + \"\\n\" + payload + \"\\n\";",
+							"    console.log(fullpayload);",
+							"    var hash = CryptoJS.HmacSHA256(fullpayload,SECRET);",
+							"    return CryptoJS.enc.Base64.stringify(hash);",
+							"    ",
+							"}",
+							"",
+							"pm.environment.set(\"altrkey\", KEY); ",
+							"var date =(new Date()).toISOString();",
+							"pm.environment.set(\"altrauth\", \"ALTR \" + KEY + \":\" + generateHMAC(date, pm.request.method)); ",
+							"pm.environment.set(\"altrdate\", date);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{altrauth}}",
+						"description": "See Pre-Request script",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-ALTR-DATE",
+						"value": "{{altrdate}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"hello\": \"world\", \"this is\": \"chainAPI\"}"
+				},
+				"url": {
+					"raw": "https://dgl-hackathon.dev.altr.com/api/v1/chain",
+					"protocol": "https",
+					"host": [
+						"dgl-hackathon",
+						"dev",
+						"altr",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"chain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Streaming Download",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2ccf0818-3952-4a35-9a33-abc83acf2498",
+						"exec": [
+							"var KEY=\"KEY_GOES_HERE\"; ",
+							"var SECRET=\"SECRET_GOES_HERE\";",
+							"",
+							"//**//",
+							"",
+							"var crypto = require('crypto-js');",
+							"function generateHMAC( payload, method, resource)",
+							"{",
+							"    console.log(\"HMAC Payload: \", payload);",
+							"    console.log(\"HMAC Method:\", method);",
+							"    var fullpayload = method  + \"\\n\" + (resource ? resource:\"\") + \"\\n\" + payload + \"\\n\";",
+							"    console.log(fullpayload);",
+							"    var hash = CryptoJS.HmacSHA256(fullpayload,SECRET);",
+							"    return CryptoJS.enc.Base64.stringify(hash);",
+							"    ",
+							"}",
+							"",
+							"pm.environment.set(\"altrkey\", KEY); ",
+							"var date =(new Date()).toISOString();",
+							"pm.environment.set(\"altrauth\", \"ALTR \" + KEY + \":\" + generateHMAC(date, pm.request.method, pm.request.url.variables.get(\"referenceToken\"))); ",
+							"pm.environment.set(\"altrdate\", date);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"description": "See Pre-Request script",
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{altrauth}}"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ALTR-DATE",
+						"type": "text",
+						"value": "{{altrdate}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://dgl-hackathon.dev.altr.com/api/v1/chain/:referenceToken",
+					"protocol": "https",
+					"host": [
+						"dgl-hackathon",
+						"dev",
+						"altr",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"chain",
+						":referenceToken"
+					],
+					"variable": [
+						{
+							"key": "referenceToken",
+							"value": "chain_7330b5682587e3844f3e2aefcb61d6e666e3c69d01a054678f03eb9ebc0a1bc2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

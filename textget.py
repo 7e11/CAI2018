@@ -17,7 +17,7 @@ def generateHMACDownload(payload):
 
 
 def getData(reference):
-    date = datetime.datetime.utcnow().isoformat();
+    date = datetime.datetime.utcnow().isoformat()
     AUTH = "ALTR " + KEY + ":" + generateHMACDownload("GET\n" + reference + "\n" + date + "\n")
     headers = {
         'Authorization': AUTH,
@@ -25,8 +25,11 @@ def getData(reference):
         'X-ALTR-DATE': date,
         'cache-control': "no-cache"
         }
-    response = requests.request("GET", URL + reference, headers=headers)
+    response = requests.request("GET", URL + reference, headers=headers, stream=True)
     return response
+
+
+response = getData("")
 
 # print(getData(REF).text)
 # print(getData("chain_e172bd299e0150864f1885b1aaf9f8c35811d075b9f4235e3993ab33faf2b2be").content)
