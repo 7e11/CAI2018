@@ -8,36 +8,28 @@ KEY = "ALTR-24E95DD903235BE18B130C1CAA0923ED"
 SECRET = "4df873715bde1fdf27d751619f0aca3d199fcc32dce112b988ce078287a76a39"
 URL = "https://dgl-hackathon.dev.altr.com/api/v1/chain"
 
+
 def generateHMAC(payload, method, resource = ""):
-    print("HMAC Payload: ", payload)
-    print("HMAC Method: ", method)
     fullpayload = method + "\n" + resource + "\n" + payload + "\n"
-    print(fullpayload)
-    # secureHash = hashlib.sha256(fullpayload, SECRET)
-    # secureHash = hmac.new(bytearray(SECRET, 'utf-8'), bytearray(fullpayload, 'utf-8'), hashlib.sha256).digest()
-    # base64.b64encode(secureHash).decode()
-    digest = hmac.new(bytes.fromhex(SECRET), msg=bytearray(payload, 'utf-8'), digestmod=hashlib.sha256).digest()
-    signature = base64.b64encode(digest).decode()
+    digest = hmac.new(SECRET.encode('ascii'), msg=fullpayload.encode('ascii'), digestmod=hashlib.sha256).digest()
+    signature = str(base64.b64encode(digest))[2:46]
     return signature
 
-# url = "https://dgl-hackathon.dev.altr.com/api/v1/chain/chain_618f5f6485a9c93f970846193207027c08d0634962460e3e46069692daa70d3e"
-date = datetime.datetime.now().isoformat()
-AUTH = "ALTR " + KEY + ":" + generateHMAC(date, "POST")
-print(AUTH)
-#
-headers = {
-    'Authorization': AUTH,
-    'X-ALTR-DATE': date,
-    'Content-Type': ''
-    }
-#
-response = requests.request("POST", URL, headers=headers, data="hello how are you")
-#
-print(response.text)
+def putData(data):
+    date = datetime.datetime.utcnow().isoformat()
+    AUTH = "ALTR " + KEY + ":" + generateHMAC(date, "POST")
+    payload = data
+    # payload = "{\"hello\": \"world\", \"this is\": \"chainAPI\"}"
+    headers = {
+        'Authorization': AUTH,
+        'Content-Type': "application/octet-stream",
+        'X-ALTR-DATE': date,
+        'cache-control': "no-cache",
+        'Postman-Token': "1c52a41a-9850-4999-a70f-7de183d9048c"
+        }
+    response = requests.request("POST", URL, data=payload, headers=headers)
+    return response
 
-
-# pm.environment.set("altrkey", KEY)
-# var
-# date = (new Date()).toISOString()
-# pm.environment.set("altrauth", "ALTR " + KEY + ":" + generateHMAC(date, pm.request.method))
-# pm.environment.set("altrdate", date)
+#data = open("arbol_0.jpg", "rb").read()
+data = "jfdksljhfksdjfkldsjfkldsjfkldsjfkldjkfldsjkfldsjklfjdsklfjdskljflds"
+print(putData(data).text) #chain_759911ac1a3776e2d3b7499509327de13237a18a8a2e533f5f09dc989ab872bf

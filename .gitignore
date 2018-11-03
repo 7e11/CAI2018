@@ -1,3 +1,7 @@
+# All node.js stuff
+node_modules/
+package-lock.json
+
 # All the PyCharm stuff in .idea
 .idea/
 
