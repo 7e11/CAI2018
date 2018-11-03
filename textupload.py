@@ -35,7 +35,7 @@ def putData(data):
 #     encoded_string = base64.b64encode(image_file.read())
 # print(putData(encoded_string).content)
 
-#data = open("arbol_0.jpg", "rb").read()
+data = open("arbol_0.jpg", "rb").read()
 # data = "jfdksljhfksdjfkldsjfkldsjfkldsjfkldjkfldsjkfldsjklfjdsklfjdskljflds"
 # print(putData(data).text) #chain_759911ac1a3776e2d3b7499509327de13237a18a8a2e533f5f09dc989ab872bf
 # chain_1d2d2c4277c0a730b977acc18e67382f36e083d2b699c4d866cf9afef4f4271f
