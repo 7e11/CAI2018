@@ -17,8 +17,8 @@ def generateHMAC(payload, method, resource = ""):
 # url = "https://dgl-hackathon.dev.altr.com/api/v1/chain/chain_618f5f6485a9c93f970846193207027c08d0634962460e3e46069692daa70d3e"
 KEY = "ALTR-24E95DD903235BE18B130C1CAA0923ED"
 SECRET = "4df873715bde1fdf27d751619f0aca3d199fcc32dce112b988ce078287a76a39"
-URL = "https://dgl-hackathon.dev.altr.com/api/v1/chain"
-date = datetime.datetime.now().isoformat();
+URL = "https://dgl-hackathon.dev.altr.com/api/v1/chain/chain_618f5f6485a9c93f970846193207027c08d0634962460e3e46069692daa70d3e/"
+date = datetime.datetime.now().isoformat()
 AUTH = "ALTR " + KEY + ":" + generateHMAC(date, POST)
 print(AUTH)
 #
@@ -40,3 +40,14 @@ print(AUTH)
 # date = (new Date()).toISOString()
 # pm.environment.set("altrauth", "ALTR " + KEY + ":" + generateHMAC(date, pm.request.method))
 # pm.environment.set("altrdate", date)
+
+date = datetime.datetime.now().isoformat()
+payload = 'POST\n\n' + date + '\n'
+API_KEY = "ALTR-24E95DD903235BE18B130C1CAA0923ED"
+SECRET = "4df873715bde1fdf27d751619f0aca3d199fcc32dce112b988ce078287a76a39"
+params = {
+    "X-ALTR-DATE": date,
+    "Authorization": "ALTR " + API_KEY + ":" + hmac.new(b'1234567890', msg=your_bytes_string, digestmod=hashlib.sha256).digest(),
+    "X-ALTR-METADATA": "<metadata>",
+    "X-Content-Length-Hint": 500
+}
