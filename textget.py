@@ -12,7 +12,7 @@ URL = "https://dgl-hackathon.dev.altr.com/api/v1/chain/"
 
 def generateHMACDownload(payload):
     digest = hmac.new(SECRET.encode('ascii'), msg=payload.encode('ascii'), digestmod=hashlib.sha256).digest()
-    signature = str(base64.b64encode(digest))[2:46]
+    signature = base64.b64encode(digest).decode()
     return signature
 
 
@@ -21,7 +21,7 @@ def getData(reference):
     AUTH = "ALTR " + KEY + ":" + generateHMACDownload("GET\n" + reference + "\n" + date + "\n")
     headers = {
         'Authorization': AUTH,
-        'Content-Type': "application/json",
+        'Content-Type': "application/octet-stream",
         'X-ALTR-DATE': date,
         'cache-control': "no-cache"
         }
@@ -29,4 +29,4 @@ def getData(reference):
     return response
 
 # print(getData(REF).text)
-# print(getData("chain_e172bd299e0150864f1885b1aaf9f8c35811d075b9f4235e3993ab33faf2b2be").text)
+# print(getData("chain_e172bd299e0150864f1885b1aaf9f8c35811d075b9f4235e3993ab33faf2b2be").content)

@@ -12,7 +12,7 @@ URL = "https://dgl-hackathon.dev.altr.com/api/v1/chain"
 def generateHMAC(payload, method, resource = ""):
     fullpayload = method + "\n" + resource + "\n" + payload + "\n"
     digest = hmac.new(SECRET.encode('ascii'), msg=fullpayload.encode('ascii'), digestmod=hashlib.sha256).digest()
-    signature = str(base64.b64encode(digest))[2:46]
+    signature = base64.b64encode(digest).decode()
     return signature
 
 
@@ -23,7 +23,7 @@ def putData(data):
     # payload = "{\"hello\": \"world\", \"this is\": \"chainAPI\"}"
     headers = {
         'Authorization': AUTH,
-        'Content-Type': "application/json",
+        'Content-Type': "application/octet-stream",
         'X-ALTR-DATE': date,
         'cache-control': "no-cache",
         'Postman-Token': "1c52a41a-9850-4999-a70f-7de183d9048c"
@@ -32,4 +32,4 @@ def putData(data):
     return response
 
 
-# print(putData("{\"hello\": \"world\", \"this is\": \"chainAPIFromPython\"}").text)
+print(putData("{\"hello\": \"world\", \"this is\": \"chainAPIFromPython\"}").content)
