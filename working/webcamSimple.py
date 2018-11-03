@@ -1,11 +1,12 @@
 import cv2
-import sys
+import os
 
 # cascPath = sys.argv[1]
 # cascPath = 'faceCascade.xml'
-face_cascade = cv2.CascadeClassifier('C:\\Users\\Evan\\PycharmProjects\\CAI2018\\faceCascade.xml')
+face_cascade = cv2.CascadeClassifier(os.path.dirname(os.path.abspath(__file__)) + '\\faceCascade.xml')
+# print(os.path.dirname(os.path.abspath(__file__)) + '\\faceCascade.xml')
 # eye_cascade = cv2.CascadeClassifier('C:\\Users\\Evan\\PycharmProjects\\CAI2018\\eyeCascade.xml')
-# smile_cascade = cv2.CascadeClassifier('C:\\Users\\Evan\\PycharmProjects\\CAI2018\\smileCascade.xml')
+# smile_cascade = cv2K.CascadeClassifier('C:\\Users\\Evan\\PycharmProjects\\CAI2018\\smileCascade.xml')
 video_capture = cv2.VideoCapture(0)
 
 while True:
@@ -28,7 +29,7 @@ while True:
         roi_gray = gray[y:y + h, x:x + w]
         roi_color = frame[y:y + h, x:x + w]
         # eyes = eye_cascade.detectMultiScale(roi_gray)
-        smile = smile_cascade.detectMultiScale(roi_gray)
+        # smile = smile_cascade.detectMultiScale(roi_gray)
         # for (ex, ey, ew, eh) in eyes:
         #     cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
         # for (sx, sy, sw, sh) in smile:
