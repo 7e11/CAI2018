@@ -4,6 +4,7 @@ import os
 
 
 cap = cv2.VideoCapture(0)
+face_cascade = cv2.CascadeClassifier(os.path.dirname(os.path.abspath(__file__)) + '\\faceCascade.xml')
 
 # Define the codec and create VideoWriter object
 
@@ -11,12 +12,25 @@ xvid = cv2.VideoWriter_fourcc(*'XVID')
 
 while True:
     i = str(calendar.timegm(time.gmtime()))
-    xvid_out = cv2.VideoWriter('videos/' + i + '.avi', xvid, 10.0, (640, 480))
-    for y in range(5 * 15):
+    xvid_out = cv2.VideoWriter('videos/' + i + '.avi', xvid, 30.0, (640, 480))
+    for y in range(30 * 15):
         try:
             ret, frame = cap.read()
-            #frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+            faceDetected = False
+            ret, frame = cap.read()
             xvid_out.write(frame)
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(
+                gray,
+                scaleFactor=1.1,
+                minNeighbors=5,
+                minSize=(30, 30)
+                # flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+            )
+
+            # Detects faces
+            if faces:
+                faceDetected = True
 
         except KeyboardInterrupt:
             # Release everything if job is finished
